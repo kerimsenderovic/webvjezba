@@ -61,3 +61,10 @@ try {
 
     return $results;
 }        -->
+
+
+Find what: utf8mb4_0900_ai_ci
+Replace with: utf8mb4_unicode_ci
+
+composer require mikecao/flight
+composer require firebase/php-jw
