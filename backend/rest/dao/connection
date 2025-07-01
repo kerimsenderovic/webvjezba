@@ -1,0 +1,63 @@
+try {
+          /** TODO
+           * List parameters such as servername, username, password, schema. Make sure to use appropriate port
+           */
+
+          /** TODO
+           * Create new connection
+           */
+          $host = 'db1.ibu.edu.ba'; 
+          $username = 'sampdb_usr'; 
+          $password = 'samp997dbUSR'; 
+          $dbname = 'samp_db'; 
+          $port = 3306; 
+          
+          /** TODO
+           * Create new connection
+           */
+          $this->conn = new PDO( 
+            "mysql:host=" . $host . ";dbname=" . $dbname . ";port=" . $port, 
+            $username, 
+            $password, [ 
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC 
+            ] 
+        ); 
+        } catch(PDOException $e) {
+          echo "Connection failed: " . $e->getMessage();
+        }
+
+
+  public function employees_performance_report($page = 1, $pageSize = 10) {
+    $offset = ($page - 1) * $pageSize;
+
+    $stmt = $this->conn->prepare("
+        SELECT e.employeeNumber, e.firstName, e.lastName, e.email, SUM(p.amount) AS total
+        FROM employees e
+        JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+        JOIN payments p ON c.customerNumber = p.customerNumber
+        GROUP BY e.employeeNumber
+        ORDER BY total DESC
+        LIMIT :limit OFFSET :offset
+    ");
+
+    <!-- $stmt->bindValue(':limit', (int)$pageSize, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results as &$employee) {
+        $employee['id'] = $employee['employeeNumber'];
+        $employee['full_name'] = $employee['firstName'] . ' ' . $employee['lastName'];
+
+        $employee['details'] = "
+            <div class='btn-group' role='group'>
+                <button type='button' class='btn btn-warning' onclick='EmployeesService.edit_employee({$employee['id']})'>Edit</button>
+                <button type='button' class='btn btn-danger' onclick='EmployeesService.delete_employee({$employee['id']})'>Delete</button>
+            </div>
+        ";
+    }
+
+    return $results;
+}        -->
