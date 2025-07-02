@@ -68,3 +68,24 @@ Replace with: utf8mb4_unicode_ci
 
 composer require mikecao/flight
 composer require firebase/php-jw
+
+
+
+
+/**
+     * Host: db1.ibu.edu.ba
+     * Database: samp_db
+     * User: sampdb_usr
+     * Password: samp997dbUSR
+     */
+     
+public function __construct() {
+    try {
+        $this->conn = new PDO("mysql:host=db1.ibu.edu.ba;port=3306;dbname=samp_db", "sampdb_usr", "samp997dbUSR");
+        // Enable exception mode
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+    } catch (PDOException $e) {
+        throw new Exception("Connection failed: " . $e->getMessage());
+    }
+}
